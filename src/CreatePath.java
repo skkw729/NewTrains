@@ -2,193 +2,157 @@ import java.util.*;
 public class CreatePath 
 {
 	CreateGraph graph;
-	ArrayList<Nodes> nodePath; 
-	public CreatePath(CreateGraph graph)
+	List<Stations> solvedNodes;
+	List<Stations> unsolvedNodes;
+	Map<Stations,Date> bestArriveTime;
+	Map<Stations,Train> bestTrain;
+	Stations endNode;
+	Stations startNode;
+	Date time;
+	public CreatePath(TrainSchedule schedule, Date when, Stations from, Stations to)
 	{
-		this.graph = graph;
-		nodePath = new ArrayList<>();
+		graph = new CreateGraph(schedule, from, to);
+		solvedNodes = new ArrayList<>();
+		unsolvedNodes = graph.getStations();
+		endNode = to;
+		startNode = from;
+		bestArriveTime = new HashMap<>();
+		bestTrain = new HashMap<>();
+		time = when;
 	}
-	 /**
-     * Sets the final value of the startNode to 0 and updates the tempValue of all connecting nodes
-     */
-    private void updateTempValue()
-    {
-        Nodes start = graph.getStartNode();
-        int updatedValue=0;
-        for (Nodes nodes : graph.getNodes())
-        {
-            
-            if(start.getDistance(nodes)!=-1 && nodes.getSolved()==false)
-            {
-                updatedValue = start.getDistance(nodes);
-                if(nodes.getTemporaryValue()<= nodes.getTemporaryValue()+updatedValue)
-                {
-                    nodes.setTemporaryValue(updatedValue);
-                }
-                
-            }
-        }
-        start.setSolved(true);
-        start.setFinalValue(0);
-    }
-    /**
-     * Updates the tempValue of all connecting nodes and sets the specified node as solved
-     */
-    private void updateNodeValue(Nodes node)
-    {
-        int updatedValue=0;
-        for (Nodes nodes : graph.getNodes())
-        {
-            if(node.getDistance(nodes)!=-1 && nodes.getSolved()==false)//if a connection exists
-            {
-                updatedValue = node.getDistance(nodes)+node.getTemporaryValue();
-                if(nodes.getTemporaryValue()==0||nodes.getTemporaryValue()>updatedValue)//if no tempValue exists or if new tempValue would be lower than current
-                {
-                    nodes.setTemporaryValue(updatedValue);//update tempValue
-                    nodes.setPreNode(node);
-                }
-            }
-        }
-        node.setSolved(true);//Mark this node as solved
-        node.setFinalValue(node.getTemporaryValue());//set the final value of this node as its tempValue
-    }
-    /**
-     * Prints tempValue and finalValue of all nodes
-     */
-    public void printTempValue()
-    {
-        for(Nodes nodes:graph.getNodes())
-        {
-            System.out.println(nodes.getName() + " TempValue: "+nodes.getTemporaryValue()+" Final: "+nodes.getFinalValue());
-        }
-    }
-    /**
-     * A method that returns an unsolved node with the lowest temporary value
-     */
-    private Nodes getNextNode()
-    {
-        Nodes next = null;
-        int value=0;
-        for(Nodes nodes:graph.getNodes())
-        {
-            if(nodes.getSolved()==false && nodes.getTemporaryValue()>0)
-            {
-                if(value==0)
-                {
-                    value = nodes.getTemporaryValue();
-                }
-                if(value>nodes.getTemporaryValue())
-                {
-                    value=nodes.getTemporaryValue();
-                }
-            }
-        }
-        for(Nodes nodes:graph.getNodes())
-        {
-            if(nodes.getSolved()==false && nodes.getTemporaryValue()==value)
-            {
-                next = nodes;
-            }
-        }
-        return next;
-    }
-    /**
-     * A method to set the final value of a node equal to the temporary value of
-     * the next unsolved node with the lowest temporary value.
-     */
-//    private void setFinalValue(Nodes node)
-//    {
-//        Nodes next = getNextNode();
-//        node.setSolved(true);
-//        node.setTemporaryValue(next.getTemporaryValue());
-//        node.setFinalValue(node.getTemporaryValue());
-//    }
-    /**
-     * A method to print the shortest path from a startNode to an endNode
-     */
-    public void printPath()
-    {
-        //take end node, find its preNode and add it to the list
-        Nodes next = graph.getEndNode();
-        ArrayList<Nodes> path = new ArrayList<>();
-        path.add(next);
-        while(next.getPreNode()!=null)
-        {
-                path.add(next.getPreNode());
-                next = next.getPreNode();
-        }
-        path.add(graph.getStartNode());
-        System.out.println("The shortest path takes " + graph.getEndNode().getFinalValue()+" minutes");
-        System.out.print("Take the path: ");
-        Collections.reverse(path);
-        for(Nodes n:path)
-        {
-        	System.out.print(n+" ");
-        }
-        nodePath = path;
-//        System.out.println("Take the trains: ");
-//        System.out.println(graph.getStartNode().getTrain(path.get(path.size()-2)));
-//        for(int i=path.size()-2;i>0;i--)
-//        {
-//            System.out.println(path.get(i).getTrain(path.get(i-1)));
-//        }
-//        System.out.println("");
-    }
-    /**
-     * A method to perform Dijkstra's algorithm
-     */
-    public void method()
-    {
-        updateTempValue();
-        while(!graph.getEndNode().getSolved())
-        {
-            Nodes next = getNextNode();
-            updateNodeValue(next);
-        }
-    }
-    /**
-     * A method to set the startNode
-     */
-    public void setBeginning(String nodeName)
-    {
-        for(Nodes node : graph.getNodes())
-        {
-            if(node.getName().equals(nodeName))
-            {
-                graph.setStart(node);
-            }
-        }
-    }
-    /**
-     * A method to set the endNode
-     */
-    public void setEnd(String nodeName)
-    {
-        for(Nodes node : graph.getNodes())
-        {
-            if(node.getName().equals(nodeName))
-            {
-                graph.setEndNode(node);
-            }
-        }
-    }
-    /**
-     * A method to reset all nodes to their original state and values 
-     */
-    public void clearValue()
-    {
-        for(Nodes node : graph.getNodes())
-        {
-            node.setSolved(false);
-            node.setTemporaryValue(0);
-            node.setFinalValue(0);
-            node.setPreNode(null);
-        }
-    }
-    public ArrayList<Nodes> getNodePath()
-    {
-    	return nodePath;
-    }
+	public Stations getEndNode()
+	{
+		return endNode;
+	}
+	public Stations getStartNode()
+	{
+		return startNode;
+	}
+	public void setStartTime(Stations from, Date when)
+	{
+		bestArriveTime.put(startNode, when);
+	}
+	/*
+	 *Returns the node with the best arrive time from the unsolved nodes list.
+	 *Adds it to the solved nodes and removes it from unsolved nodes. 
+	 */
+	public Stations getNextNode()
+	{
+		Date bestTime = null;
+		Stations node = null;
+		for(Stations n:unsolvedNodes)
+		{
+			Date d = bestArriveTime.get(n);
+			if(d!=null)
+			{
+				if(bestTime==null || d.before(bestTime))
+				{
+					bestTime = d;
+					node = n;
+				}
+			}
+		}
+		solvedNodes.add(node);
+		unsolvedNodes.remove(node);
+		return node;
+	}
+	/*
+	 * Returns a list of neighbour nodes from the unsolved nodes
+	 * Returns an empty list if no neighbours exist
+	 */
+	public List<Stations> getNeighbourNodes(Stations from)
+	{
+		List<Stations> neighbours = new ArrayList<>();
+		for(Stations to:unsolvedNodes)
+		{
+			List<Train> directTrains = graph.getTrainConnections(from).get(to);
+			if(directTrains!=null&&!directTrains.isEmpty())
+			{
+				neighbours.add(to);
+			}
+		}
+		return neighbours;
+	}
+	public void updateNeighbourNodes(Stations from)
+	{
+		List<Stations> neighbours = getNeighbourNodes(from);
+		for(Stations neighbour:neighbours)
+		{
+			Date bestTime = null;//best arrival time
+			Train train = null;//the train giving the best arrival time
+			List<Train> trains = graph.getTrainConnections(from).get(neighbour);//list of direct trains from station to neighbour node
+			for(Train t:trains)
+			{
+				Date arriveTime = t.getTimeline().getArriveTime(neighbour);//arrival time of the train at neighbour
+				Date departTime = t.getTimeline().getDepartTime(from);//depart time of the train from n
+				if(departTime.after(bestArriveTime.get(from)))//if the depart time is after the arrival time at n
+				{
+					if(bestTime==null||arriveTime.before(bestTime))
+					{
+						bestTime = arriveTime;
+						train = t;
+					}
+				}
+			}
+			if(bestArriveTime.get(neighbour)==null||bestArriveTime.get(neighbour).after(bestTime))//check if new time is better than one already stored
+			{
+				bestArriveTime.put(neighbour, bestTime);//store earliest arrival time
+				bestTrain.put(neighbour, train);//store best train for arrival time
+				graph.setPreStation(neighbour, from);//store node n coming before the neighbour node
+			}
+		}
+	}
+	public void startDijkstras()
+	{
+		graph.setTrainConnections();
+		setStartTime(startNode, time);
+		while(!unsolvedNodes.isEmpty())
+		updateNeighbourNodes(getNextNode());
+	}
+	public Path getPath()
+	{
+		Path path = new Path();
+		
+		//list of stations on the path
+		List<Stations> stations = new ArrayList<>();
+		stations.add(endNode);
+		Stations nextStation = graph.getPreStation(endNode);
+		while(nextStation!=startNode)
+		{
+			stations.add(nextStation);
+			nextStation = graph.getPreStation(nextStation);
+		}
+		stations.add(startNode);
+		Collections.reverse(stations);
+		path.setStations(stations);//store list in the path
+		
+		bestTrain.put(startNode, bestTrain.get(stations.get(1)));//set train from start station
+		//store arrival/depart times and train at each station
+		for(Stations s:stations)
+		{
+			Date arrivalTime = bestArriveTime.get(s);
+			Date departTime = bestTrain.get(s).getTimeline().getDepartTime(s);
+			Train theTrain = bestTrain.get(s);
+			path.putArriveTime(s, arrivalTime);
+			path.putDepartTime(s, departTime);
+			path.putTrain(s, theTrain);
+		}
+		
+		//calculate stations to transfer at and associated departTime
+		Train trainFrom;
+		Train trainAfter;
+		for(int i=1;i<stations.size();i++)
+		{
+			trainFrom = bestTrain.get(stations.get(i-1));
+			trainAfter = bestTrain.get(stations.get(i));
+			if(!trainFrom.equals(trainAfter))
+			{
+				Stations transferStation = stations.get(i-1);
+				Date departTime = trainAfter.getTimeline().getDepartTime(transferStation);
+				path.putTransferStation(transferStation, departTime);
+			}
+		}
+		
+		return path;
+	}
 }
-
-

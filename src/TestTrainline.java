@@ -185,7 +185,7 @@ public class TestTrainline
 		calendar.set(Calendar.HOUR_OF_DAY, 6);
 		calendar.set(Calendar.MINUTE, 0);
 		now = calendar.getTime();
-		CreatePath2 path = new CreatePath2(schedule, now, DHM, HYM);
+		CreatePath path = new CreatePath(schedule, now, ABD, SUN);
 		path.startDijkstras();
 		path.getPath().print();
 	}
