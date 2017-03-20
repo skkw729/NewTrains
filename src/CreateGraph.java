@@ -3,9 +3,9 @@ public class CreateGraph
 {
 	private TrainSchedule schedule;
 	private ArrayList<Stations> stations;
-	private Map<Stations, Map<Stations, List<Train>>> trainConnections;//used for creation of graph
-	private Map<Stations, Stations> preStation;
-	public CreateGraph(TrainSchedule schedule, Stations from, Stations to)
+	private Map<Stations, Map<Stations, List<Train>>> trainConnections;//for a given station, returns a list of trains that connect it to any other given station
+	private Map<Stations, Stations> preStation;//the station that preceeds the given station
+	public CreateGraph(TrainSchedule schedule)
 	{
 		this.schedule = schedule;
 		stations = schedule.getStationsList();
@@ -34,7 +34,7 @@ public class CreateGraph
 							{
 								connections.put(to, directTrains);
 							}
-							else
+							else//otherwise create a new hashmap and store the connection data
 							{
 								connections = new HashMap<>();
 								connections.put(to, directTrains);
