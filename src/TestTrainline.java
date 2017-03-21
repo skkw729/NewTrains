@@ -16,7 +16,7 @@ public class TestTrainline
 		Stations BWK = new Stations("Berwick-upon-Tweed", "BWK");
 		Stations DUN = new Stations("Dunbar", "DUN");
 		Stations EDB = new Stations("Edinburgh Waverley", "EDB");
-		Stations HYM = new Stations("Haymarkey", "HYM");
+		Stations HYM = new Stations("Haymarket", "HYM");
 		Stations MTH = new Stations("Motherwell", "MTH");
 		Stations GLC = new Stations("Glasgow Central", "GLC");
 		Stations INK = new Stations("Inverkeithing", "INK");
@@ -182,11 +182,11 @@ public class TestTrainline
 		//test code here
 		Date now = new Date();
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 17);
-		calendar.set(Calendar.MINUTE, 32);
+		calendar.set(Calendar.HOUR_OF_DAY, 13);
+		calendar.set(Calendar.MINUTE, 02);
 		now = calendar.getTime();
 		CreatePath path = new CreatePath(schedule);
-		path.getPath(YRK, DHM, now).print();
+		path.getPath(YRK, SUN, now).print();
 	}
 
 }
