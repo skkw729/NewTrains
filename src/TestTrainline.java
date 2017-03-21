@@ -16,7 +16,7 @@ public class TestTrainline
 		Stations BWK = new Stations("Berwick-upon-Tweed", "BWK");
 		Stations DUN = new Stations("Dunbar", "DUN");
 		Stations EDB = new Stations("Edinburgh Waverley", "EDB");
-		Stations HYM = new Stations("Haymarkey", "HYM");
+		Stations HYM = new Stations("Haymarket", "HYM");
 		Stations MTH = new Stations("Motherwell", "MTH");
 		Stations GLC = new Stations("Glasgow Central", "GLC");
 		Stations INK = new Stations("Inverkeithing", "INK");
