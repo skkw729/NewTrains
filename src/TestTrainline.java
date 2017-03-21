@@ -182,11 +182,16 @@ public class TestTrainline
 		//test code here
 		Date now = new Date();
 		Calendar calendar = Calendar.getInstance();
+<<<<<<< HEAD
 		calendar.set(Calendar.HOUR_OF_DAY, 12);
 		calendar.set(Calendar.MINUTE, 32);
+=======
+		calendar.set(Calendar.HOUR_OF_DAY, 13);
+		calendar.set(Calendar.MINUTE, 02);
+>>>>>>> refs/remotes/origin/master
 		now = calendar.getTime();
 		CreatePath path = new CreatePath(schedule);
-		path.getPath(YRK, DHM, now).print();
+		path.getPath(YRK, SUN, now).print();
 	}
 
 }
