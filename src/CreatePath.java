@@ -14,6 +14,13 @@ public class CreatePath
 		bestArriveTime = new HashMap<>();
 		bestTrain = new HashMap<>();
 	}
+	private void clearGraph()
+	{
+		unsolvedNodes = graph.getStations();
+		solvedNodes = new ArrayList<>();
+		bestArriveTime = new HashMap<>();
+		bestTrain = new HashMap<>();
+	}
 	/*
 	 * Initialise the arrival time at the starting station
 	 */
@@ -156,9 +163,27 @@ public class CreatePath
 	/*
 	 * return a path using via station
 	 */
-	public Path getPath(Stations via)
+	public Path getPath(Stations start, Stations end, Stations via, Date when)
 	{
-		Path path = new Path();
+		//get path from start to via
+		Path first = getPath(start, via, when);
+		
+		//get path from via to end using arrival time at via
+		clearGraph();
+		Date timeAtVia = first.getArriveTime(via);
+		Path second = getPath(via, end, timeAtVia);
+		
+		//combine the two paths
+		Path path = mergePath(first,second);
 		return path;
+	}
+	/*
+	 * combines two paths into a single path
+	 */
+	private Path mergePath(Path first, Path second)
+	{
+		Stations lastStation = first.getStations().get(first.getStations().size()-1);//last station of the first path
+		Stations firstStation = second.getStations().get(0);//first station of the second path
+		return null;
 	}
 }
