@@ -182,7 +182,7 @@ public class TestTrainline
 		//test code here
 		Date now = new Date();
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 17);
+		calendar.set(Calendar.HOUR_OF_DAY, 12);
 		calendar.set(Calendar.MINUTE, 32);
 		now = calendar.getTime();
 		CreatePath path = new CreatePath(schedule);
