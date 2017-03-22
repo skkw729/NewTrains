@@ -127,7 +127,7 @@ public class TrainSchedule
 		{
 			if(t.passStation(s))
 			{
-				System.out.println(t+" arrives in " + s + " at "+DateTime.DateToString(t.getTimeline().getArriveTime(s)));
+				System.out.println(t+" arrives in " + s + " at "+DateTime.dateToString(t.getTimeline().getArriveTime(s)));
 			}
 		}
 		

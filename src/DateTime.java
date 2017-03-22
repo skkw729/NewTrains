@@ -8,7 +8,7 @@ public class DateTime
 	/*
 	 * Creates time in String format @ HH:MM
 	 */
-	public static String DateToString(Date d)
+	public static String dateToString(Date d)
 	{
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
@@ -24,7 +24,7 @@ public class DateTime
 		}
 		return hour+":"+min;
 	}
-	public static Calendar DateToCalendar(Date d)
+	public static Calendar dateToCalendar(Date d)
 	{
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(d);

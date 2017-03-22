@@ -53,7 +53,7 @@ public class Train {
 			Calendar time = Calendar.getInstance();//create new calendar
 			time.setTime(timeline.getArriveTime(s));//set it to the arrival time at station s
 			Date date = time.getTime();//new date object to store time
-			System.out.println("Calling at "+name+" at "+DateTime.DateToString(date));
+			System.out.println("Calling at "+name+" at "+DateTime.dateToString(date));
 			
 		}
 	}
@@ -92,7 +92,7 @@ public class Train {
 	}
 	public String toString()
 	{
-		String startTimeString = DateTime.DateToString(startTime);
+		String startTimeString = DateTime.dateToString(startTime);
 		return startTimeString+" from "+startStation.getName()+" to "+endStation.getName();
 	}
 	public boolean equals(Object obj)

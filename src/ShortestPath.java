@@ -52,11 +52,11 @@ public class ShortestPath extends Timeline implements Path
 			System.out.print(s.getCode()+" ");
 		}
 		System.out.println("");
-		System.out.println("Departing from "+stations.get(0)+" at "+DateTime.DateToString(super.getDepartTime(stations.get(0))));
+		System.out.println("Departing from "+stations.get(0)+" at "+DateTime.dateToString(super.getDepartTime(stations.get(0))));
 		for(int i=1;i<stations.size();i++)
 		{
 			Stations s = stations.get(i);
-			System.out.println("Arriving in "+s+" at "+DateTime.DateToString(super.getArriveTime(s)));
+			System.out.println("Arriving in "+s+" at "+DateTime.dateToString(super.getArriveTime(s)));
 		}
 		if(!transfer.isEmpty())
 		{
@@ -66,7 +66,7 @@ public class ShortestPath extends Timeline implements Path
 				Date transferTime = transfer.get(s);
 				if(transferTime!=null)
 				{
-					System.out.println("Transfer at "+s+" departing at "+DateTime.DateToString(transferTime));
+					System.out.println("Transfer at "+s+" departing at "+DateTime.dateToString(transferTime));
 				}
 			}
 		}
@@ -81,24 +81,4 @@ public class ShortestPath extends Timeline implements Path
 	{
 		return null;
 	}
-	/*
-	 * combines two paths into a single path
-	 */
-//	public Path mergePath(Path otherPath)
-//	{
-//		Stations lastStation = stations.get(stations.size()-1);//last station of the first path
-//		Stations firstStation = otherPath.getStations().get(0);//first station of the second path
-//		Stations viaStation = null;
-//		if(lastStation.equals(firstStation))//if both stations are the same, then set it to be the viaStation 
-//		{
-//			viaStation = lastStation;
-//		}
-//		else throw new IllegalStateException("Connecting stations do not match");
-//		stations.addAll(otherPath.getStations());//combine list of stations
-//		stations.remove(viaStation);//remove duplicate viaStation (if present)
-//		train.putAll(otherPath.getTrain());
-//		//set best train for arrival at viaStation
-//		//handle the case where stations are visited more than once
-//		return null;
-//	}
 }
