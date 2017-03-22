@@ -12,6 +12,11 @@ public class CreateGraph
 		trainConnections = new HashMap<>();
 		preStation = new HashMap<>();
 	}
+	public void clearGraph()
+	{
+		preStation = new HashMap<>();
+		trainConnections = new HashMap<>();
+	}
 	public List<Stations> getStations()
 	{
 		return stations;

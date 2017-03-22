@@ -11,3 +11,5 @@
 /Train.class
 /TrainSchedule.class
 /Trainline.class
+/PathVia.class
+/ShortestPath.class
