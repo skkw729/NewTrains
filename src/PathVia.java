@@ -1,15 +1,18 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PathVia implements Path
 {
 	private ShortestPath first;
 	private ShortestPath second;
+	private Stations via;
 	
-	public PathVia(ShortestPath first, ShortestPath second)
+	public PathVia(ShortestPath first, ShortestPath second,Stations via)
 	{
 		this.first = first;
 		this.second = second;
+		this.via = via;
 	}
 	public List<Stations> getStations()
 	{
@@ -20,8 +23,11 @@ public class PathVia implements Path
 		return stationList;
 	}
 	@Override
-	public void print() {
-		// TODO Auto-generated method stub
+	public void print() 
+	{
+		System.out.println(getRoute());
+		System.out.println(getRouteTimes());
+		System.out.println(getTransfers());
 		
 	}
 	@Override
@@ -50,10 +56,42 @@ public class PathVia implements Path
 		{
 			if(s!=firstStationOfSecondPath)
 			{
-				routeTimes = routeTimes + "Arriving in"+s+" at "+DateTime.dateToString(second.getArriveTime(s))+"\n";
+				routeTimes = routeTimes + "Arriving in "+s+" at "+DateTime.dateToString(second.getArriveTime(s))+"\n";
 			}
 		}
-		
-		return null;
+		return routeTimes;
+	}
+	public String getTransfers()
+	{
+		int numberOfTransfers = first.getNumberOfTransfers()+second.getNumberOfTransfers();
+		Stations transferStation=null;
+		if(!first.getTrain(via).equals(second.getTrain(via)))
+		{
+			numberOfTransfers++;
+			transferStation = via;
+		}
+		String transfers = "This route has "+numberOfTransfers+" change(s)\n";
+		for(Stations s:first.getStations())
+		{
+			Date transferTime = first.getTransferTime(s);
+			if(transferTime!=null)
+			{
+				transfers = transfers+"Transfer at "+s+" departing at "+DateTime.dateToString(transferTime)+"\n";
+			}
+		}
+		if(transferStation !=null)
+		{
+			Date transferTime = second.getDepartTime(transferStation);
+			transfers = transfers+"Transfer at "+transferStation+" departing at "+DateTime.dateToString(transferTime)+"\n";
+		}
+		for(Stations s:second.getStations())
+		{
+			Date transferTime = second.getTransferTime(s);
+			if(transferTime!=null)
+			{
+				transfers = transfers+"Transfer at "+s+" departing at "+DateTime.dateToString(transferTime)+"\n";
+			}
+		}
+		return transfers;
 	}
 }

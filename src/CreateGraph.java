@@ -8,14 +8,10 @@ public class CreateGraph
 	public CreateGraph(TrainSchedule schedule)
 	{
 		this.schedule = schedule;
-		stations = schedule.getStationsList();
+		stations = new ArrayList<>();
+		stations.addAll(schedule.getStationsList());//use a copy of stationList from schedule
 		trainConnections = new HashMap<>();
 		preStation = new HashMap<>();
-	}
-	public void clearGraph()
-	{
-		preStation = new HashMap<>();
-		trainConnections = new HashMap<>();
 	}
 	public List<Stations> getStations()
 	{

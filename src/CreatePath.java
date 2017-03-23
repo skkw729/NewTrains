@@ -1,6 +1,7 @@
 import java.util.*;
 public class CreatePath 
 {
+	TrainSchedule schedule;
 	CreateGraph graph;
 	List<Stations> solvedNodes;
 	List<Stations> unsolvedNodes;
@@ -8,19 +9,22 @@ public class CreatePath
 	Map<Stations,Train> bestTrain;
 	public CreatePath(TrainSchedule schedule)
 	{
+		this.schedule = schedule;
 		graph = new CreateGraph(schedule);
 		solvedNodes = new ArrayList<>();
-		unsolvedNodes = graph.getStations();
+		unsolvedNodes = new ArrayList<>();
+		unsolvedNodes.addAll(graph.getStations());//copy of arraylist
 		bestArriveTime = new HashMap<>();
 		bestTrain = new HashMap<>();
 	}
 	private void clearGraph()
 	{
-		unsolvedNodes = graph.getStations();
+		graph = new CreateGraph(schedule);
+		unsolvedNodes = new ArrayList<>();
+		unsolvedNodes.addAll(graph.getStations());//copy of arraylist
 		solvedNodes = new ArrayList<>();
 		bestArriveTime = new HashMap<>();
 		bestTrain = new HashMap<>();
-		graph.clearGraph();
 	}
 	/*
 	 * Initialise the arrival time at the starting station
@@ -161,21 +165,13 @@ public class CreatePath
 		
 		return path;
 	}
-	/*
-	 * return a path using via station
-	 */
-//	public ShortestPath getPath(Stations start, Stations end, Stations via, Date when)
-//	{
-//		//get path from start to via
-//		ShortestPath first = getPath(start, via, when);
-//		
-//		//get path from via to end using arrival time at via
-//		clearGraph();
-//		Date timeAtVia = first.getArriveTime(via);
-//		ShortestPath second = getPath(via, end, timeAtVia);
-//		
-//		//combine the two paths
-//		ShortestPath path = first.mergePath(second);
-//		return path;
-//	}
+	public Path getPathVia(Stations start, Stations end, Stations via, Date when)
+	{
+		ShortestPath first = getPath(start, via, when);
+		Date arriveAtVia = bestArriveTime.get(via);
+		clearGraph();
+		ShortestPath second = getPath(via, end, arriveAtVia);
+		Path path = new PathVia(first, second, via);
+		return path;
+	}
 }

@@ -186,7 +186,8 @@ public class TestTrainline
 		calendar.set(Calendar.MINUTE, 32);
 		now = calendar.getTime();
 		CreatePath path = new CreatePath(schedule);
-		path.getPath(YRK, SUN, now).print();
+		path.getPathVia(ABD, HYM, GLC, now).print();
+		
 	}
 
 }

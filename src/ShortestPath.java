@@ -16,6 +16,26 @@ public class ShortestPath extends Timeline implements Path
 		transfer = new HashMap<>();
 		stations = new ArrayList<>();
 	}
+	public int getNumberOfTransfers()
+	{
+		return transfer.size();
+	}
+	public List<Stations> getTransferStations()
+	{
+		List<Stations> transferStations = new ArrayList<>();
+		if(!transfer.isEmpty())
+		{
+			for(Stations s:stations)
+			{
+				Date d = transfer.get(s);
+				if(d!=null)
+				{
+					transferStations.add(s);
+				}
+			}
+		}
+		return transferStations;
+	}
 	public Map<Stations, Train> getTrainMap()
 	{
 		return train;
