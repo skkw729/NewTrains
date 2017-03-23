@@ -186,6 +186,14 @@ public class TestTrainline
 		calendar.set(Calendar.MINUTE, 32);
 		now = calendar.getTime();
 		CreatePath path = new CreatePath(schedule);
+		try
+		{
+			path.getPath(null, null, now);
+		}
+		catch (IllegalArgumentException e)
+		{
+			System.out.println(e);
+		}
 		path.getPathVia(ABD, HYM, GLC, now).print();
 		
 	}

@@ -121,6 +121,7 @@ public class CreatePath
 	 */
 	public ShortestPath getPath(Stations start, Stations end, Date when)
 	{
+		if(start==null || end==null || when==null) throw new IllegalArgumentException("Null parameters detected");
 		ShortestPath path = new ShortestPath();
 		startDijkstras(start, when);
 		//list of stations on the path
