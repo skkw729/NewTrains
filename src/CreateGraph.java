@@ -2,7 +2,7 @@ import java.util.*;
 public class CreateGraph 
 {
 	private TrainSchedule schedule;
-	private ArrayList<Stations> stations;
+	private List<Stations> stations;
 	private Map<Stations, Map<Stations, List<Train>>> trainConnections;//for a given station, returns a list of trains that connect it to any other given station
 	private Map<Stations, Stations> preStation;//the station that preceeds the given station
 	public CreateGraph(TrainSchedule schedule)
@@ -50,10 +50,10 @@ public class CreateGraph
 	/*
 	 * list of trains such that the destination station is the station immediately after the departure station
 	 */
-	public ArrayList<Train> getDirectTrains(Stations from, Stations to)
+	public List<Train> getDirectTrains(Stations from, Stations to)
 	{
-		ArrayList<Train> trains = schedule.getTrains(from);//all trains that pass through departure station
-		ArrayList<Train> directTrains = new ArrayList<>();
+		List<Train> trains = schedule.getTrains(from);//all trains that pass through departure station
+		List<Train> directTrains = new ArrayList<>();
 		for(Train t:trains)
 		{
 			if(t.getStationAfter(from)!=null && t.getStationAfter(from).equals(to))

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 /*
  * A class storing methods used in the creation of trains
  */
@@ -9,9 +10,9 @@ public class CreateTrains
 	 * Creates trains for both directions of a given trainline
 	 * frequency of 1 every 30minutes
 	 */
-	public static ArrayList<Train> createTrains(Trainline trainline)
+	public static List<Train> createTrains(Trainline trainline)
 	{
-		ArrayList<Train> trains = new ArrayList<>();
+		List<Train> trains = new ArrayList<>();
 		//assuming earliest train at 07:00 and latest train at 22:00		
 		for(int i=7;i<23;i++)
 		{
@@ -36,10 +37,10 @@ public class CreateTrains
 	}
 	public static void addReverseConnection(Trainline trainline)
 	{
-		ArrayList<Stations> stations = trainline.getStationsList();
+		List<Stations> stations = trainline.getStationsList();
 		addReverseConnection(stations);
 	}
-	public static void addReverseConnection(ArrayList<Stations> stations)
+	public static void addReverseConnection(List<Stations> stations)
 	{
 		for(Stations s:stations)
 		{

@@ -8,10 +8,10 @@ public class PathVia implements Path
 	private ShortestPath second;
 	private Stations via;
 	
-	public PathVia(ShortestPath first, ShortestPath second,Stations via)
+	public PathVia(Path first, Path second,Stations via)
 	{
-		this.first = first;
-		this.second = second;
+		this.first = (ShortestPath) first;
+		this.second = (ShortestPath) second;
 		this.via = via;
 	}
 	public List<Stations> getStations()

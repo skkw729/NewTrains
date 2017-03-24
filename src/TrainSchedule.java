@@ -1,10 +1,10 @@
 import java.util.*;
 public class TrainSchedule 
 {
-	private HashMap<Stations, ArrayList<Train>> stationSchedule;//stores the list of trains arriving at each station
-	private ArrayList<Trainline> trainlines;
-	private ArrayList<Stations> stationsList;
-	private ArrayList<Train> trains;
+	private Map<Stations, List<Train>> stationSchedule;//stores the list of trains arriving at each station
+	private List<Trainline> trainlines;
+	private List<Stations> stationsList;
+	private List<Train> trains;
 	
 	public TrainSchedule()
 	{
@@ -27,7 +27,7 @@ public class TrainSchedule
 			}
 		}
 	}
-	public ArrayList<Train> getTrains()
+	public List<Train> getTrains()
 	{
 		return trains;
 	}
@@ -78,7 +78,7 @@ public class TrainSchedule
 	/*
 	 * returns a list of trains that travel through a given station
 	 */
-	public ArrayList<Train> getTrains(Stations s)
+	public List<Train> getTrains(Stations s)
 	{
 		ArrayList<Train> trainList = new ArrayList<>();
 		for(Train t:trains)
@@ -97,17 +97,17 @@ public class TrainSchedule
 	{
 		for(Stations s:stationsList)
 		{
-			ArrayList<Train> trainlist = getTrains(s);
+			List<Train> trainlist = getTrains(s);
 			stationSchedule.put(s, trainlist);
 		}
 	}
-	public ArrayList<Train> getStationSchedule(Stations s)
+	public List<Train> getStationSchedule(Stations s)
 	{
 		return stationSchedule.get(s);
 	}
-	public ArrayList<Date> getArrivalTimes(Stations s)
+	public List<Date> getArrivalTimes(Stations s)
 	{
-		ArrayList<Date> arrivalTimes = new ArrayList<>();
+		List<Date> arrivalTimes = new ArrayList<>();
 		for(Train train:trains)
 		{
 			if(train.passStation(s))
@@ -137,7 +137,7 @@ public class TrainSchedule
 		for(Trainline lines:trainlines)
 		{
 			CreateTrains.addReverseConnection(lines);//add reverse connectionTimes
-			ArrayList<Train> trains = CreateTrains.createTrains(lines);
+			List<Train> trains = CreateTrains.createTrains(lines);
 			this.trains.addAll(trains);
 			for(Train t:trains)
 			{
@@ -146,7 +146,7 @@ public class TrainSchedule
 			}
 		}
 	}
-	public ArrayList<Stations> getStationsList()
+	public List<Stations> getStationsList()
 	{
 		return stationsList;
 	}

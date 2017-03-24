@@ -1,15 +1,26 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 /*
  * class to store a list of stations
  */
 public class Trainline {
 
-	private ArrayList<Stations> trainLine;
+	private List<Stations> trainLine;
 	private String name;
 	private Stations startStation;
 	private Stations endStation;
 	
+	public Trainline()
+	{
+		trainLine = new ArrayList<>();
+		name = "";
+	}
+	public Trainline(List<Stations> stations)
+	{
+		name = "";
+		trainLine = stations;
+	}
 	public Trainline(String n)
 	{
 		trainLine = new ArrayList<Stations>();
@@ -45,7 +56,7 @@ public class Trainline {
 		setStartStation();
 		setEndStation();	
 	}
-	public ArrayList<Stations> getStationsList()
+	public List<Stations> getStationsList()
 	{
 		return trainLine;
 	}
@@ -65,9 +76,9 @@ public class Trainline {
 	/*
 	 * A method to return the list of stations in reverse order
 	 */
-	public ArrayList<Stations> reverseLine()
+	public List<Stations> reverseLine()
 	{
-		ArrayList<Stations> reverseList = trainLine;
+		List<Stations> reverseList = trainLine;
 		Collections.reverse(reverseList);
 		return reverseList;
 	}

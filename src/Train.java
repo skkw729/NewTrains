@@ -21,7 +21,7 @@ public class Train {
 	public void makeTimeline()
 	{
 		timeline.putArriveTime(startStation, startTime);//store the arrival time at the first station
-		ArrayList<Stations> stationList = trainline.getStationsList();
+		List<Stations> stationList = trainline.getStationsList();
 		Stations from = startStation;//station that the train is travelling from
 		Stations to = startStation;//station that the train is travelling to
 		Date t1 = startTime;//store start time in Date object
@@ -57,7 +57,7 @@ public class Train {
 			
 		}
 	}
-	public ArrayList<Stations> getStationList()
+	public List<Stations> getStationList()
 	{
 		return trainline.getStationsList();
 	}

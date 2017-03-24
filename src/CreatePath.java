@@ -13,7 +13,7 @@ public class CreatePath
 		graph = new CreateGraph(schedule);
 		solvedNodes = new ArrayList<>();
 		unsolvedNodes = new ArrayList<>();
-		unsolvedNodes.addAll(graph.getStations());//copy of arraylist
+		unsolvedNodes.addAll(graph.getStations());//copy of arraylist (changes will be made to this list)
 		bestArriveTime = new HashMap<>();
 		bestTrain = new HashMap<>();
 	}
@@ -27,9 +27,25 @@ public class CreatePath
 		bestTrain = new HashMap<>();
 	}
 	/*
+	 * Match a string station code to a station
+	 * returns null if no match can be found
+	 */
+	private Stations getStation(String stationCode)
+	{
+		Stations station = null;
+		for(Stations s:graph.getStations())
+		{
+			if(s.getCode().equals(stationCode))
+			{
+				station = s;
+			}
+		}
+		return station;
+	}
+	/*
 	 * Initialise the arrival time at the starting station
 	 */
-	public void setStartTime(Stations from, Date when)
+	private void setStartTime(Stations from, Date when)
 	{
 		bestArriveTime.put(from, when);
 	}
@@ -37,7 +53,7 @@ public class CreatePath
 	 *Returns the node with the best arrive time from the unsolved nodes list.
 	 *Adds it to the solved nodes and removes it from unsolved nodes. 
 	 */
-	public Stations getNextNode()
+	private Stations getNextNode()
 	{
 		Date bestTime = null;
 		Stations node = null;
@@ -61,7 +77,7 @@ public class CreatePath
 	 * Returns a list of neighbour nodes from the unsolved nodes
 	 * Returns an empty list if no neighbours exist
 	 */
-	public List<Stations> getNeighbourNodes(Stations from)
+	private List<Stations> getNeighbourNodes(Stations from)
 	{
 		List<Stations> neighbours = new ArrayList<>();
 		for(Stations to:unsolvedNodes)
@@ -77,7 +93,7 @@ public class CreatePath
 	/*
 	 * calculate the best arrival time for nodes adjacent to the given station 
 	 */
-	public void updateNeighbourNodes(Stations from)
+	private void updateNeighbourNodes(Stations from)
 	{
 		List<Stations> neighbours = getNeighbourNodes(from);
 		for(Stations neighbour:neighbours)
@@ -109,17 +125,23 @@ public class CreatePath
 	/*
 	 * Calculates the shortest path from the given station to all other stations, using trains that depart after the given time
 	 */
-	public void startDijkstras(Stations from, Date when)
+	private void startDijkstras(Stations from, Date when)
 	{
 		graph.setTrainConnections();
 		setStartTime(from, when);
 		while(!unsolvedNodes.isEmpty())
 		updateNeighbourNodes(getNextNode());
 	}
+	public Path getPath(String startStationCode, String endStationCode, Date when)
+	{
+		Stations start = getStation(startStationCode);
+		Stations end = getStation(endStationCode);
+		return getPath(start, end, when);
+	}
 	/*
 	 * returns a Path for given start station, end station and depart time
 	 */
-	public ShortestPath getPath(Stations start, Stations end, Date when)
+	public Path getPath(Stations start, Stations end, Date when)
 	{
 		if(start==null || end==null || when==null) throw new IllegalArgumentException("Null parameters detected");
 		ShortestPath path = new ShortestPath();
@@ -166,13 +188,26 @@ public class CreatePath
 		
 		return path;
 	}
+	public Path getPathVia(String startStationCode, String endStationCode, String viaStationCode, Date when)
+	{
+		Stations start = getStation(startStationCode);
+		Stations end = getStation(endStationCode);
+		Stations via = getStation(viaStationCode);
+		return getPathVia(start, end, via, when);
+	}
 	public Path getPathVia(Stations start, Stations end, Stations via, Date when)
 	{
-		ShortestPath first = getPath(start, via, when);
+		if(start==null || end==null || via==null || when==null) throw new IllegalArgumentException("Null parameters detected");
+		Path path=null;
+		Path first = getPath(start, via, when);
 		Date arriveAtVia = bestArriveTime.get(via);
 		clearGraph();
-		ShortestPath second = getPath(via, end, arriveAtVia);
-		Path path = new PathVia(first, second, via);
+		Path second = getPath(via, end, arriveAtVia);
+		if(first instanceof ShortestPath && second instanceof ShortestPath)
+		{
+			path = new PathVia(first, second, via);
+		}
+		else throw new IllegalArgumentException("ShortestPaths expected, actual parameters were: "+first.getClass() + " and "+second.getClass());
 		return path;
 	}
 }
