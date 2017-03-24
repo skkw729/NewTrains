@@ -66,39 +66,57 @@ public class ShortestPath extends Timeline implements Path
 	}
 	public void print()
 	{
-		System.out.print("The best route is: ");
+		System.out.println(getRoute());
+		System.out.println(getRouteTimes());
+		System.out.println(getTransfers());
+	}
+	public String getRoute()
+	{
+		String route = "The fastest route is: ";
 		for(Stations s:stations)
 		{
-			System.out.print(s.getCode()+" ");
+			route = route + s.getCode()+" ";
 		}
-		System.out.println("");
-		System.out.println("Departing from "+stations.get(0)+" at "+DateTime.dateToString(super.getDepartTime(stations.get(0))));
-		for(int i=1;i<stations.size();i++)
+		return route;
+	}
+	public String getRouteTimes()
+	{
+		Stations departureStation = stations.get(0);
+		Stations lastStation = stations.get(stations.size()-1);
+		String routeTimes = "Departing from "+departureStation+" at "+DateTime.dateToString(super.getDepartTime(departureStation))+"\n";
+		for(Stations s:stations)
 		{
-			Stations s = stations.get(i);
-			System.out.println("Arriving in "+s+" at "+DateTime.dateToString(super.getArriveTime(s)));
+			if(s!=departureStation)
+			{
+				if(s!=(lastStation))
+				{
+					routeTimes = routeTimes+"Arriving in "+s+" at "+DateTime.dateToString(super.getArriveTime(s))+"\n";
+				}
+				else
+				{
+					routeTimes = routeTimes+"Arriving in "+s+" at "+DateTime.dateToString(super.getArriveTime(s));
+				}
+			}
 		}
+		return routeTimes;
+	}
+	public String getTransfers()
+	{
+		String transfers = "";
 		if(!transfer.isEmpty())
 		{
-			System.out.println("This route has "+transfer.size()+" change(s)");
+			transfers = transfers+"This route has "+transfer.size()+" change(s)\n";
 			for(Stations s: stations)
 			{
 				Date transferTime = transfer.get(s);
 				if(transferTime!=null)
 				{
-					System.out.println("Transfer at "+s+" departing at "+DateTime.dateToString(transferTime));
+					transfers = transfers+"Transfer at "+s+" departing at "+DateTime.dateToString(transferTime)+"\n";
 				}
 			}
 		}
 		int minutes = DateTime.dateDiff(super.getArriveTime(stations.get(stations.size()-1)), super.getDepartTime(stations.get(0)));
-		System.out.println("Total travel time: "+minutes+" minutes.");
-	}
-	public String getRoute()
-	{
-		return null;
-	}
-	public String getRouteTimes()
-	{
-		return null;
+		transfers = transfers+"Total travel time: "+minutes+" minutes.\n";
+		return transfers;
 	}
 }

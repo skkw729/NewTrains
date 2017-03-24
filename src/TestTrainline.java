@@ -188,7 +188,7 @@ public class TestTrainline
 		CreatePath path = new CreatePath(schedule);
 		try
 		{
-			path.getPath(null, null, now);
+			path.getPath(ABD, MPT, now).print();
 		}
 		catch (IllegalArgumentException e)
 		{

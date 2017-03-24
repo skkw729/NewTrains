@@ -31,7 +31,8 @@ public class PathVia implements Path
 		
 	}
 	@Override
-	public String getRoute() {
+	public String getRoute() 
+	{
 		String route = "The fastest route is: ";
 		for(Stations s:getStations())
 		{
@@ -43,6 +44,7 @@ public class PathVia implements Path
 	public String getRouteTimes() 
 	{
 		Stations departureStation = first.getStations().get(0);
+		Stations lastStation = second.getStations().get(second.getStations().size()-1);
 		String routeTimes = "Departing from "+departureStation+" at "+DateTime.dateToString(first.getDepartTime(departureStation))+"\n";
 		for(Stations s:first.getStations())
 		{
@@ -56,7 +58,14 @@ public class PathVia implements Path
 		{
 			if(s!=firstStationOfSecondPath)
 			{
-				routeTimes = routeTimes + "Arriving in "+s+" at "+DateTime.dateToString(second.getArriveTime(s))+"\n";
+				if(s!=lastStation)
+				{
+					routeTimes = routeTimes + "Arriving in "+s+" at "+DateTime.dateToString(second.getArriveTime(s))+"\n";
+				}
+				else
+				{
+					routeTimes = routeTimes + "Arriving in "+s+" at "+DateTime.dateToString(second.getArriveTime(s));
+				}
 			}
 		}
 		return routeTimes;
@@ -92,6 +101,8 @@ public class PathVia implements Path
 				transfers = transfers+"Transfer at "+s+" departing at "+DateTime.dateToString(transferTime)+"\n";
 			}
 		}
+		int minutes = DateTime.dateDiff(second.getArriveTime(second.getStations().get(second.getStations().size()-1)), first.getDepartTime(first.getStations().get(0)));
+		transfers = transfers+"Total travel time: "+minutes+" minutes.\n";
 		return transfers;
 	}
 }
