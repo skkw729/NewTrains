@@ -136,6 +136,19 @@ public class TrainSchedule
 			}
 		}
 	}
+	public void createTrains(Date when)
+	{
+		for(Trainline lines:trainlines)
+		{
+			CreateTrains.addReverseConnection(lines);//add reverse connectionTimes
+			List<Train> trains = CreateTrains.createTrains(lines, when);
+			this.trains.addAll(trains);
+			for(Train t:trains)
+			{
+				updateSchedule(t);
+			}
+		}
+	}
 	public List<Stations> getStationsList()
 	{
 		return stationsList;

@@ -43,6 +43,24 @@ public class DateTime
 		Date date = calendar.getTime();
 		return date;
 	}
+	public static Date setDate(int hour, int min, Date when)
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(when);
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, min);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND,0);
+		Date date = calendar.getTime();
+		return date;
+	}
+	public static Date getTomorrow(Date when)
+	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(when);
+		c.add(Calendar.DATE, 1);
+		return c.getTime();
+	}
 	//returns difference between two dates in minutes
 	public static int dateDiff(Date later, Date earlier)
 	{

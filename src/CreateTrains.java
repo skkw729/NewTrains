@@ -9,22 +9,57 @@ public class CreateTrains
 	/*
 	 * Creates trains for both directions of a given trainline
 	 * frequency of 1 every 30minutes
+	 * creates trains for current day and tomorrow
 	 */
 	public static List<Train> createTrains(Trainline trainline)
+	{
+		List<Train> trains = new ArrayList<>();
+		Date now = new Date();
+		//assuming earliest train at 07:00 and latest train at 22:00		
+		for(int i=7;i<23;i++)
+		{
+			//Create Date object to store startTime
+			Date startTime = DateTime.setDate(i, 0);
+			Date tomorrow = DateTime.getTomorrow(now);
+			Date startTimeTomorrow = DateTime.setDate(i, 0, tomorrow);
+			Train t = new Train(trainline, startTime);
+			Train t2 = new Train(trainline, startTimeTomorrow);
+			trains.add(t);
+			trains.add(t2);
+			if(i<22)
+			{
+				startTime = DateTime.setDate(i, 30);
+				startTimeTomorrow = DateTime.setDate(i, 30, tomorrow);
+				t = new Train(trainline, startTime);
+				t2 = new Train(trainline, startTimeTomorrow);
+				trains.add(t);
+				trains.add(t2);
+			}
+		}
+		return trains;
+	}
+	public static List<Train> createTrains(Trainline trainline, Date when)
 	{
 		List<Train> trains = new ArrayList<>();
 		//assuming earliest train at 07:00 and latest train at 22:00		
 		for(int i=7;i<23;i++)
 		{
 			//Create Date object to store startTime
-			Date startTime = DateTime.setDate(i, 0);
+			Date startTime = DateTime.setDate(i, 0, when);
+			Date tomorrow = DateTime.getTomorrow(when);
+			Date startTimeTomorrow = DateTime.setDate(i, 0, tomorrow);
 			Train t = new Train(trainline, startTime);
+			Train t2 = new Train(trainline, startTimeTomorrow);
 			trains.add(t);
+			trains.add(t2);
 			if(i<22)
 			{
-				startTime = DateTime.setDate(i, 30);
+				startTime = DateTime.setDate(i, 30, when);
+				startTimeTomorrow = DateTime.setDate(i, 30, tomorrow);
 				t = new Train(trainline, startTime);
+				t2 = new Train(trainline, startTimeTomorrow);
 				trains.add(t);
+				trains.add(t2);
 			}
 		}
 		return trains;

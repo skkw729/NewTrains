@@ -17,6 +17,17 @@ public class CreatePath
 		bestArriveTime = new HashMap<>();
 		bestTrain = new HashMap<>();
 	}
+	public CreatePath(TrainSchedule schedule, Date when)
+	{
+		this.schedule = schedule;
+		schedule.createTrains(when);
+		graph = new CreateGraph(schedule);
+		solvedNodes = new ArrayList<>();
+		unsolvedNodes = new ArrayList<>();
+		unsolvedNodes.addAll(graph.getStations());//copy of arraylist (changes will be made to this list)
+		bestArriveTime = new HashMap<>();
+		bestTrain = new HashMap<>();
+	}
 	private void clearGraph()
 	{
 		graph = new CreateGraph(schedule);
