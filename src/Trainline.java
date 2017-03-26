@@ -39,6 +39,10 @@ public class Trainline {
 	{
 		trainLine.remove(s);
 	}
+	public void setName(String n)
+	{
+		name = n;
+	}
 	public String getName()
 	{
 		return name;
@@ -78,7 +82,8 @@ public class Trainline {
 	 */
 	public List<Stations> reverseLine()
 	{
-		List<Stations> reverseList = trainLine;
+		List<Stations> reverseList = new ArrayList<>();//make a new list to avoid side effects
+		reverseList.addAll(trainLine);
 		Collections.reverse(reverseList);
 		return reverseList;
 	}

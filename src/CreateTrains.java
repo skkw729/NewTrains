@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /*
- * A class storing methods used in the creation of trains
+ * A class storing methods used in the creation of trains and trainlines
  */
 public class CreateTrains 
 {
@@ -19,18 +19,12 @@ public class CreateTrains
 			//Create Date object to store startTime
 			Date startTime = DateTime.setDate(i, 0);
 			Train t = new Train(trainline, startTime);
-			//reverse connection time not implemented yet
-//			Trainline reverse = new Trainline(trainline.getName()+" south", trainline.reverseLine());
-//			Train tReverse = new Train(reverse, startTime);
 			trains.add(t);
-//			trains.add(tReverse);
 			if(i<22)
 			{
 				startTime = DateTime.setDate(i, 30);
 				t = new Train(trainline, startTime);
-//				tReverse = new Train(reverse, startTime);
 				trains.add(t);
-//				trains.add(tReverse);
 			}
 		}
 		return trains;
@@ -46,11 +40,11 @@ public class CreateTrains
 		{
 			for(Stations s2:stations)
 			{
-				try
+				int i = s.getConnectionTime(s2);
+				if(i!=-1)//-1 means no connection between stations s and s2
 				{
 					s2.addConnection(s, s.getConnectionTime(s2));
 				}
-				catch (NullPointerException e){}
 			}
 		}
 	}
@@ -59,11 +53,12 @@ public class CreateTrains
 	 */
 	public static Trainline reverseLine(Trainline line)
 	{
-		Trainline reverseLine = new Trainline(line.getName()+" South");
-		for(int i =0; i<line.getStationsList().size(); i++)
-			{
-				reverseLine.addStation(line.getStationsList().get(line.getStationsList().size()-1-i));
-			}
+		Trainline reverseLine = new Trainline(line.getEndStation()+" to "+line.getStartStation());
+		List<Stations> reverseList = line.reverseLine();
+		for(Stations s:reverseList)
+		{
+			reverseLine.addStation(s);
+		}
 		reverseLine.completeTrainline();
 		return reverseLine;
 	}

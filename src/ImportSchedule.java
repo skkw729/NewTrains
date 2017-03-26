@@ -73,15 +73,16 @@ public class ImportSchedule
 						stationRef = s;
 					}
 				}
-				if(stationRef==null)
+				if(stationRef==null) {
 					throw new IllegalStateException("null station found in trainlines");
+				}
 				trainline.addStation(stationRef);
 			}
 			//all stations have been added to the trainline
 			trainline.completeTrainline();//initialise start and end stations
+			trainline.setName(trainline.getStartStation()+" to "+trainline.getEndStation());
 			trainlineList.add(trainline);
 		}
-		
 		//add trainlines to schedule to import all information
 		for(Trainline t: trainlineList)
 		{

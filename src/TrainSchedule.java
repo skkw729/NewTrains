@@ -31,13 +31,6 @@ public class TrainSchedule
 	{
 		return trains;
 	}
-	public void addTrainline(Train train)
-	{
-		if(!trainlines.contains(train.getTrainline()))
-		{
-			addTrainline(train.getTrainline());
-		}
-	}
 	public void addTrainline(Trainline line)
 	{
 		importStationList(line);//updates the stationList when adding a new trainline
@@ -52,8 +45,6 @@ public class TrainSchedule
 		{
 			trainlines.add(reverseLine);
 		}
-		
-		
 	}
 	public boolean removeTrainline(Trainline line)
 	{
@@ -141,7 +132,6 @@ public class TrainSchedule
 			this.trains.addAll(trains);
 			for(Train t:trains)
 			{
-				addTrainline(t);
 				updateSchedule(t);
 			}
 		}
