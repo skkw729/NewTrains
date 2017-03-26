@@ -46,6 +46,9 @@ public class TrainSchedule
 			trainlines.add(reverseLine);
 		}
 	}
+	/*
+	 * removes a trainline from the schedule
+	 */
 	public boolean removeTrainline(Trainline line)
 	{
 		if(trainlines.contains(line))
@@ -57,15 +60,21 @@ public class TrainSchedule
 			return false;
 		}
 	}
+	/*
+	 * adds a train to a schedule
+	 */
 	public void addTrain(Train t)
 	{
 		trains.add(t);
-		updateSchedule(t);
+		updateSchedule();
 	}
+	/*
+	 * removes a train from a schedule
+	 */
 	public void remove(Train t)
 	{
-		trains.remove(t);//could have side effects on stationSchedule
-		//should recalculate stationSchedule hashmap
+		trains.remove(t);
+		updateSchedule();
 	}
 	/*
 	 * returns a list of trains that travel through a given station
@@ -83,9 +92,9 @@ public class TrainSchedule
 		return trainList;
 	}
 	/*
-	 * remakes the stationSchedule hashmap
+	 * remakes the stationSchedule hashmap using the trains list
 	 */
-	public void updateSchedule(Train t)
+	public void updateSchedule()
 	{
 		for(Stations s:stationsList)
 		{
@@ -93,10 +102,16 @@ public class TrainSchedule
 			stationSchedule.put(s, trainlist);
 		}
 	}
+	/*
+	 * list of trains that pass the given station
+	 */
 	public List<Train> getStationSchedule(Stations s)
 	{
 		return stationSchedule.get(s);
 	}
+	/*
+	 * list of arrival times of trains that pass this station
+	 */
 	public List<Date> getArrivalTimes(Stations s)
 	{
 		List<Date> arrivalTimes = new ArrayList<>();
@@ -131,11 +146,8 @@ public class TrainSchedule
 			CreateTrains.addReverseConnection(lines);//add reverse connectionTimes
 			List<Train> trains = CreateTrains.createTrains(lines);
 			this.trains.addAll(trains);
-			for(Train t:trains)
-			{
-				updateSchedule(t);
-			}
 		}
+		updateSchedule();
 	}
 	public void createTrains(Date when)
 	{
@@ -144,11 +156,8 @@ public class TrainSchedule
 			CreateTrains.addReverseConnection(lines);//add reverse connectionTimes
 			List<Train> trains = CreateTrains.createTrains(lines, when);
 			this.trains.addAll(trains);
-			for(Train t:trains)
-			{
-				updateSchedule(t);
-			}
 		}
+		updateSchedule();
 	}
 	public List<Stations> getStationsList()
 	{

@@ -9,7 +9,7 @@ public class CreateGraph
 	{
 		this.schedule = schedule;
 		stations = new ArrayList<>();
-		stations.addAll(schedule.getStationsList());//use a copy of stationList from schedule
+		stations.addAll(schedule.getStationsList());//use a copy of stationList from schedule to avoid side effects
 		trainConnections = new HashMap<>();
 		preStation = new HashMap<>();
 	}
