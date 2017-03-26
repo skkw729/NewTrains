@@ -16,7 +16,7 @@ public class TrainSchedule
 	/*
 	 * add stations from a trainline to the list in this class
 	 */
-	public void importStationList(Trainline line)
+	private void importStationList(Trainline line)
 	{
 		//add new stations to stationList in schedule
 		for(Stations s:line.getStationsList())
@@ -94,7 +94,7 @@ public class TrainSchedule
 	/*
 	 * remakes the stationSchedule hashmap using the trains list
 	 */
-	public void updateSchedule()
+	private void updateSchedule()
 	{
 		for(Stations s:stationsList)
 		{
