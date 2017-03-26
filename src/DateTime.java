@@ -54,6 +54,15 @@ public class DateTime
 		Date date = calendar.getTime();
 		return date;
 	}
+	public static Date setDate(int day, int month, int year, int hour, int min)
+	{
+		Calendar c = Calendar.getInstance();
+		c.set(year, month+1, day, hour, min);//Here, January is month 1 instead of 0
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND,0);
+		Date date = c.getTime();
+		return date;
+	}
 	public static Date getTomorrow(Date when)
 	{
 		Calendar c = Calendar.getInstance();

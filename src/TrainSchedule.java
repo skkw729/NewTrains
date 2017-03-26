@@ -64,7 +64,8 @@ public class TrainSchedule
 	}
 	public void remove(Train t)
 	{
-		trains.remove(t);
+		trains.remove(t);//could have side effects on stationSchedule
+		//should recalculate stationSchedule hashmap
 	}
 	/*
 	 * returns a list of trains that travel through a given station

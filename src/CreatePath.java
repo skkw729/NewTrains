@@ -10,6 +10,7 @@ public class CreatePath
 	public CreatePath(TrainSchedule schedule)
 	{
 		this.schedule = schedule;
+		schedule.createTrains();
 		graph = new CreateGraph(schedule);
 		solvedNodes = new ArrayList<>();
 		unsolvedNodes = new ArrayList<>();
