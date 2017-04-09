@@ -17,6 +17,9 @@ public class CreateGraph
 	{
 		return stations;
 	}
+	/*
+	 * Creates train connections between all stations in the station list
+	 */
 	public void setTrainConnections()
 	{
 		for(Stations from:stations)

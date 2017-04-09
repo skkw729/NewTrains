@@ -11,7 +11,7 @@ public class TestTrainline
 		
 		//Date objects to test with
 		Date now = new Date();
-		Date when = DateTime.setDate(30, 12, 1990, 13, 15);//day, month, year, hour, minute
+		Date when = DateTime.setDate(30, 12, 1990, 13, 35);//day, month, year, hour, minute
 		
 		//test path1
 		CreatePath path = new CreatePath(schedule2, when);//date can now be specified to create more trains at this date
@@ -20,6 +20,8 @@ public class TestTrainline
 		//test path2
 		path = new CreatePath(schedule2, now);//path creation requires 2 lines of code
 		path.getPath("GLC", "NCL", now).print();
+		
+		
 	}
 
 }
