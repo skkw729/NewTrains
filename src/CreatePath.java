@@ -113,7 +113,6 @@ public class CreatePath
 			Date bestTime = null;//best arrival time
 			Train train = null;//the train giving the best arrival time
 			List<Train> trains = graph.getTrainConnections(from).get(neighbour);//list of direct trains from station to neighbour node
-
 			for(Train t:trains)
 			{
 				Date arriveTime = t.getTimeline().getArriveTime(neighbour);//arrival time of the train at neighbour
@@ -133,18 +132,17 @@ public class CreatePath
 				bestTrain.put(neighbour, train);//store best train for arrival time
 				graph.setPreStation(neighbour, from);//store node n coming before the neighbour node
 			}
-
 		}
 	}
 	/*
 	 * Calculates the shortest path from the given station to all other stations, using trains that depart after the given time
 	 */
-	private void startDijkstras(Stations from, Stations end, Date when)
+	private void startDijkstras(Stations from, Date when)
 	{
 		graph.setTrainConnections();
 		setStartTime(from, when);
-		while(unsolvedNodes.contains(end))
-			updateNeighbourNodes(getNextNode());
+		while(!unsolvedNodes.isEmpty())
+		updateNeighbourNodes(getNextNode());
 	}
 	public Path getPath(String startStationCode, String endStationCode, Date when)
 	{
@@ -152,18 +150,14 @@ public class CreatePath
 		Stations end = getStation(endStationCode);
 		return getPath(start, end, when);
 	}
-	public Path getPath(Stations start, Stations end, Date when)
-	{
-		startDijkstras(start, end, when);
-		return recordPath(start, end, when);
-	}
 	/*
-	 * returns a Path for the current solved graph in this class. To be used after startDijkstras() 
+	 * returns a Path for given start station, end station and depart time
 	 */
-	private Path recordPath(Stations start, Stations end, Date when)
+	public Path getPath(Stations start, Stations end, Date when)
 	{
 		if(start==null || end==null || when==null) throw new IllegalArgumentException("Null parameters detected");
 		ShortestPath path = new ShortestPath();
+		startDijkstras(start, when);
 		//list of stations on the path
 		List<Stations> stations = new ArrayList<>();
 		stations.add(end);
@@ -176,7 +170,7 @@ public class CreatePath
 		stations.add(start);
 		Collections.reverse(stations);
 		path.setStations(stations);//store list in the path
-
+		
 		bestTrain.put(start, bestTrain.get(stations.get(1)));//set train from start station
 		//store arrival/depart times and train at each station
 		for(Stations s:stations)
@@ -188,7 +182,7 @@ public class CreatePath
 			path.putDepartTime(s, departTime);
 			path.putTrain(s, theTrain);
 		}
-
+		
 		//calculate stations to transfer at and associated departTime
 		Train trainFrom;
 		Train trainAfter;
@@ -203,7 +197,7 @@ public class CreatePath
 				path.putTransferStation(transferStation, departTime);
 			}
 		}
-
+		
 		return path;
 	}
 	public Path getPathVia(String startStationCode, String endStationCode, String viaStationCode, Date when)
