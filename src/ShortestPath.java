@@ -4,17 +4,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShortestPath extends Timeline implements Path 
+public class ShortestPath implements Path 
 {
 	private List<Stations> stations;
 	private Map<Stations, Train> train;
 	private Map<Stations, Date> transfer;
+	private HashMap<Stations,Date> arriveTime;
+	private HashMap<Stations, Date> departTime;
 	public ShortestPath() 
 	{
-		super();
 		train = new HashMap<>();
 		transfer = new HashMap<>();
 		stations = new ArrayList<>();
+		arriveTime = new HashMap<>();
+		departTime = new HashMap<>();
+	}
+	public void putArriveTime(Stations s, Date d)
+	{
+		arriveTime.put(s, d);
+	}
+	public void putDepartTime(Stations s, Date d)
+	{
+		departTime.put(s, d);
+	}
+	public Date getArriveTime(Stations s)
+	{
+		return arriveTime.get(s);
+	}
+	public Date getDepartTime(Stations s)
+	{
+		return departTime.get(s);
 	}
 	public int getNumberOfTransfers()
 	{
@@ -83,18 +102,18 @@ public class ShortestPath extends Timeline implements Path
 	{
 		Stations departureStation = stations.get(0);
 		Stations lastStation = stations.get(stations.size()-1);
-		String routeTimes = "Departing from "+departureStation+" at "+DateTime.dateToString(super.getDepartTime(departureStation))+"\n";
+		String routeTimes = "Departing from "+departureStation+" at "+DateTime.dateToString(getDepartTime(departureStation))+"\n";
 		for(Stations s:stations)
 		{
 			if(s!=departureStation)
 			{
 				if(s!=(lastStation))
 				{
-					routeTimes = routeTimes+"Arriving in "+s+" at "+DateTime.dateToString(super.getArriveTime(s))+"\n";
+					routeTimes = routeTimes+"Arriving in "+s+" at "+DateTime.dateToString(getArriveTime(s))+"\n";
 				}
 				else
 				{
-					routeTimes = routeTimes+"Arriving in "+s+" at "+DateTime.dateToString(super.getArriveTime(s));
+					routeTimes = routeTimes+"Arriving in "+s+" at "+DateTime.dateToString(getArriveTime(s));
 				}
 			}
 		}
@@ -115,7 +134,7 @@ public class ShortestPath extends Timeline implements Path
 				}
 			}
 		}
-		int minutes = DateTime.dateDiff(super.getArriveTime(stations.get(stations.size()-1)), super.getDepartTime(stations.get(0)));
+		int minutes = DateTime.dateDiff(getArriveTime(stations.get(stations.size()-1)), getDepartTime(stations.get(0)));
 		transfers = transfers+"Total travel time: "+minutes+" minutes.\n";
 		return transfers;
 	}

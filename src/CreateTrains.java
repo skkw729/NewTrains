@@ -6,8 +6,8 @@ import java.util.List;
  */
 public class CreateTrains 
 {
-	public static final int EARLIEST = 7;
-	public static final int LATEST = 22;
+	private static final int EARLIEST = 7;
+	private static final int LATEST = 22;
 	/*
 	 * Creates trains for both directions of a given trainline
 	 * frequency of 1 every 30minutes

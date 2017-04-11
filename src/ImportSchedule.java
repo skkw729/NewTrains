@@ -88,6 +88,7 @@ public class ImportSchedule
 		{
 			schedule.addTrainline(t);
 		}
+		trainlines.close();
 		return schedule;
 		
 

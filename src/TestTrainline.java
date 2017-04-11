@@ -19,7 +19,7 @@ public class TestTrainline
 		
 		//test path2
 		path = new CreatePath(schedule2, now);//path creation requires 2 lines of code
-		path.getPath("GLC", "NCL", now).print();
+		path.getPathVia("GLC", "NCL", "DHM", now).print();
 	}
 
 }
