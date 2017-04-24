@@ -45,6 +45,9 @@ public class DateTime
 		Date date = calendar.getTime();
 		return date;
 	}
+	/*
+	 * Sets the hour and minute of a given Date object
+	 */
 	public static Date setDate(int hour, int min, Date when)
 	{
 		Calendar calendar = Calendar.getInstance();
@@ -82,5 +85,18 @@ public class DateTime
 		long difference = late.getTimeInMillis() - early.getTimeInMillis();
 		int minutes = (int) difference/(1000*60);
 		return minutes;
+	}
+	public static String minutesToHourMin(int min)
+	{
+		if(min<0) return null;
+		int hours = min/60;
+		int remainder = min%60;
+		if(hours>0)
+		{
+			if(hours>1) return hours+" hours and "+remainder+" minutes";
+			else return hours+" hour and "+remainder+" minutes";
+		}
+		if(remainder>0) return remainder+" minutes";
+		return null;
 	}
 }

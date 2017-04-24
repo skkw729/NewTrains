@@ -165,6 +165,10 @@ public class TrainSchedule
 	{
 		return stationsList;
 	}
+	/*
+	 * match a string to a station via the stationCode
+	 * returns null if a match cannot be found
+	 */
 	public Stations getStation(String code)
 	{
 		for(Stations s:stationsList)

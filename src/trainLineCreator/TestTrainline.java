@@ -17,7 +17,7 @@ public class TestTrainline
 		
 		//test path1
 		CreatePath path = new CreatePath(schedule2, when);//date can now be specified to create more trains at this date
-		path.getPath("GLC", "NCL", when).print();//Now taking String input to CreatePath
+		path.getPath("KGX", "LDS", when).print();//Now taking String input to CreatePath
 		
 		//test path2
 		path = new CreatePath(schedule2, now);//path creation requires 2 lines of code
