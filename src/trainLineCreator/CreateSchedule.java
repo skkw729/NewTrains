@@ -1,4 +1,5 @@
 package trainLineCreator;
+//download Dropbox SDK and import jar to build path
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
@@ -24,14 +25,17 @@ public class CreateSchedule {
 	//access token for dropbox folder
     private static final String ACCESS_TOKEN = "vI9KfDN7ymAAAAAAAAAAkdY3E_YoSGHu2zlHPaFV1BfqmftMDGalz4jg6mfLOZFw";
 
-    public static DbxClientV2 createClient() throws DbxException, IOException {
+    public CreateSchedule() throws DbxException, IOException{
+    	DbxClientV2 client = createClient();
+    }
+    private static DbxClientV2 createClient() throws DbxException, IOException {
         // Create Dropbox client using access token
         DbxRequestConfig config = new DbxRequestConfig("dropbox/java-tutorial");
         DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
         return client;
     }
 
-	private static void downloadFile(DbxClientV2 client, String filePath) {
+	public static void downloadFile(DbxClientV2 client, String filePath) {
 		try
         {
             //output file for download
@@ -60,7 +64,7 @@ public class CreateSchedule {
         }
 	}
 
-	private static void uploadFile(DbxClientV2 client, String filePath)
+	public static void uploadFile(DbxClientV2 client, String filePath)
 			throws FileNotFoundException, UploadErrorException, DbxException, IOException {
 		File file = new File("data/"+filePath);
         try (InputStream in =  new FileInputStream(file)){
@@ -70,7 +74,7 @@ public class CreateSchedule {
         }
 	}
 
-	private static void showFiles(DbxClientV2 client)
+	public static void showFiles(DbxClientV2 client)
 			throws ListFolderErrorException, DbxException, ListFolderContinueErrorException {
 		// Get files and folder metadata from Dropbox root directory
         ListFolderResult result = client.files().listFolder("");
